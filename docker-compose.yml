@@ -1,0 +1,37 @@
+version: "3.9"
+
+networks:
+    aula_youtube_network:
+        name: aula_youtube_network
+
+services:    
+    php-apache:
+        image: webdevops/php-apache-dev:8.2-alpine
+        container_name: api-php-puro-back
+        restart: always
+        ports:
+            - "80:80"
+        volumes:
+            - ./:/app
+        depends_on:
+            - postgresqldb-php-aula
+        networks:
+            aula_youtube_network:
+                aliases:
+                    - api-php-puro-back
+
+    postgresqldb-php-aula:
+        image: postgres:${POSTGRESQL_VERSION}
+        container_name: postgresql-php-aula
+        restart: always
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./postgresql/scripts:/docker-entrypoint-initdb.d/
+            - ./postgresql/data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_PASSWORD: ${POSTGRESQL_PASS}
+        networks:
+            aula_youtube_network:
+                aliases:
+                    - postgresql-php-aula
