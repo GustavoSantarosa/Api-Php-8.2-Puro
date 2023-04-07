@@ -1,31 +1,20 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-use Carbon\Carbon;
 use Dotenv\Dotenv;
-use App\Models\User;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-require_once('./vendor/autoload.php');
-
-$user = new User();
-
-echo $user->get();
-
-echo "<br><br><br>-----------------------<br><br><br>";
+require_once('vendor/autoload.php');
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-echo env('POSTGRESQL_VERSION');
-echo Carbon::now();
-
-echo "<br><br><br>-----------------------<br><br><br>";
+if(env("APP_DEBUG")){
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
 
 $capsule = new Capsule();
 
@@ -42,7 +31,3 @@ $capsule->addConnection([
 $capsule->setEventDispatcher(new Dispatcher(new Container));
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
-
-$user = new User();
-
-var_dump($user->all());exit;

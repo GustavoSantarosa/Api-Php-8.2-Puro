@@ -5,7 +5,8 @@
     "vlucas/phpdotenv": "^5.5",
     "illuminate/support": "^10.6",
     "illuminate/database": "^10.6",
-    "illuminate/events": "^10.6"
+    "illuminate/events": "^10.6",
+    "symfony/var-dumper": "^6.2"
   },
   "autoload": {
     "psr-4": {
